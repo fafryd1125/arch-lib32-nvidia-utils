@@ -47,7 +47,7 @@ process_manifest () {
         ["UTILITY_LIB_SYMLINK"]="lib32-nvidia-utils symlink_lib"
 
         # Ignored entries
-        ["INSTALLER_BINARY"]="ignored"          # provided by pacman :)
+        ["INSTALLER_BINARY"]="ignored"          # provided by pacman
         ["KERNEL_MODULE_SRC"]="ignored"         # kernel modules are handled by the nvidia PKGBUILD
         ["DKMS_CONF"]="ignored"                 # dkms is not used
         ["LIBGL_LA"]="ignored"                  # .la files are not needed
@@ -61,18 +61,18 @@ process_manifest () {
         ["XMODULE_NEWSYM"]="ignored"            # not needed for modern X servers
         ["XMODULE_SYMLINK"]="ignored"           # not needed for modern X servers
 
-        # Entries not needed for lib32 packages
-        ["APPLICATION_PROFILE"]="ignored"
+        # Ignored entries for lib32-* packages
+        ["CUDA_ICD"]="ignored"                  # lib32-opencl-nvidia
+        ["APPLICATION_PROFILE"]="ignored"       # lib32-nvidia-libgl
         ["NVIDIA_MODPROBE_MANPAGE"]="ignored"
         ["NVIDIA_MODPROBE"]="ignored"
-        ["UTILITY_BINARY"]="ignored"
-        ["DOT_DESKTOP"]="ignored"
         ["GLX_MODULE_SHARED_LIB"]="ignored"
         ["GLX_MODULE_SYMLINK"]="ignored"
-        ["MANPAGE"]="ignored"
-        ["CUDA_ICD"]="ignored"
-        ["XORG_OUTPUTCLASS_CONFIG"]="ignored"
         ["XMODULE_SHARED_LIB"]="ignored"
+        ["XORG_OUTPUTCLASS_CONFIG"]="ignored"
+        ["UTILITY_BINARY"]="ignored"            # lib32-nvidia-utils
+        ["DOT_DESKTOP"]="ignored"
+        ["MANPAGE"]="ignored"
         ["DOCUMENTATION"]="ignored"
     )
 
