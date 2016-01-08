@@ -5,7 +5,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=358.16
+pkgver=361.16
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -15,7 +15,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("ftp://download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-md5sums=('5dfe11ca13548ca4813b10f3223d6014')
+md5sums=('cbb48d10306d6ca49423ed80e786598e')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -30,6 +30,8 @@ process_manifest () {
         # lib32-nvidia-libgl
         ["OPENGL_LIB"]="lib32-nvidia-libgl install_lib"
         ["OPENGL_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
+        ["GLVND_LIB"]="lib32-nvidia-libgl install_lib"
+        ["GLVND_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
         ["TLS_LIB"]="lib32-nvidia-libgl install_tls"
         ["VDPAU_LIB"]="lib32-nvidia-libgl install_lib"
         ["VDPAU_SYMLINK"]="lib32-nvidia-libgl symlink_lib_with_path"
@@ -56,8 +58,6 @@ process_manifest () {
         ["OPENGL_HEADER"]="ignored"             # provided by mesa
         ["UTILITY_BIN_SYMLINK"]="ignored"       # provided by pacman
         ["UVM_MODULE_SRC"]="ignored"            # kernel modules are handled by the nvidia PKGBUILD
-        ["VDPAU_WRAPPER_LIB"]="ignored"         # provided by libvdpau
-        ["VDPAU_WRAPPER_SYMLINK"]="ignored"     # provided by libvdpau
         ["XMODULE_NEWSYM"]="ignored"            # not needed for modern X servers
         ["XMODULE_SYMLINK"]="ignored"           # not needed for modern X servers
 
