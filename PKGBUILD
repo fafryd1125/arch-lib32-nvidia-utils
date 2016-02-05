@@ -1,6 +1,10 @@
 # $Id$
-# Maintainer: Thomas Baechler <thomas@archlinux.org>
+# Maintainer: Sven-Hendrik Haase <sh@lutzhaase.com>
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Thomas Baechler <thomas@archlinux.org>
 # Contributor: James Rayner <iphitus@gmail.com>
+# Contributor: Aaron Plattner <aplattner@nvidia.com>
+# Contributor: Darek Zielski <dz1125.bug.tracker@gmail.com>
 
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
