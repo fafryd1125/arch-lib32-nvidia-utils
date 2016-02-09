@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=361.18
+pkgver=361.28
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha1sums=('695a0a04135a7d9f56e31ee2b85c39184c531e8a')
+sha1sums=('aa7057262cf34d53c87e2caf231301d5a499b13b')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -32,10 +32,12 @@ process_manifest () {
         ["OPENCL_LIB_SYMLINK"]="lib32-opencl-nvidia symlink_lib_with_path"
 
         # lib32-nvidia-libgl
-        ["OPENGL_LIB"]="lib32-nvidia-libgl install_lib"
-        ["OPENGL_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
         ["GLVND_LIB"]="lib32-nvidia-libgl install_lib"
         ["GLVND_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
+        ["GLX_CLIENT_LIB"]="lib32-nvidia-libgl install_glvnd"
+        ["GLX_CLIENT_SYMLINK"]="lib32-nvidia-libgl symlink_glvnd"
+        ["OPENGL_LIB"]="lib32-nvidia-libgl install_lib"
+        ["OPENGL_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
         ["TLS_LIB"]="lib32-nvidia-libgl install_tls"
         ["VDPAU_LIB"]="lib32-nvidia-libgl install_lib"
         ["VDPAU_SYMLINK"]="lib32-nvidia-libgl symlink_lib_with_path"
@@ -104,6 +106,17 @@ process_manifest () {
 
 install_lib()           { install -D -m$2 "$1" "${pkgdir}/usr/lib32/$5$1"; }
 
+install_glvnd()      {
+    case "$5" in
+        NON_GLVND)
+            # legacy non-GLVND GLX libraries
+            ;;
+        GLVND)
+            install -D -m$2 "$1" "${pkgdir}/usr/lib32/$1";
+            ;;
+    esac
+}
+
 install_tls() {
     # Only "new" TLS is needed on modern systems.
     case $5 in
@@ -122,6 +135,17 @@ install_tls() {
 
 symlink_lib()           { ln -s "$5" "${pkgdir}/usr/lib32/$1"; }
 symlink_lib_with_path() { ln -s "$6" "${pkgdir}/usr/lib32/$5$1"; }
+
+symlink_glvnd()      {
+    case "$6" in
+        NON_GLVND)
+            # legacy non-GLVND GLX symlinks
+            ;;
+        GLVND)
+            ln -s "$5" "${pkgdir}/usr/lib32/$1";
+            ;;
+    esac
+}
 
 package_lib32-opencl-nvidia() {
     pkgdesc="OpenCL implemention for NVIDIA (32-bit)"
