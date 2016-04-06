@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=364.12
+pkgver=364.15
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha1sums=('ab81a2d75fb2e6902424bd35baa06d4d564d54de')
+sha1sums=('901d42100e262fd46cb22f68d98c69868ff4423c')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -107,7 +107,7 @@ process_manifest () {
 
 install_lib()           { install -D -m$2 "$1" "${pkgdir}/usr/lib32/$5$1"; }
 
-install_glvnd()      {
+install_glvnd()         {
     case "$5" in
         NON_GLVND)
             # legacy non-GLVND GLX libraries
@@ -118,7 +118,7 @@ install_glvnd()      {
     esac
 }
 
-install_tls() {
+install_tls()           {
     # Only "new" TLS is needed on modern systems.
     case $5 in
         CLASSIC)
@@ -137,7 +137,7 @@ install_tls() {
 symlink_lib()           { ln -s "$5" "${pkgdir}/usr/lib32/$1"; }
 symlink_lib_with_path() { ln -s "$6" "${pkgdir}/usr/lib32/$5$1"; }
 
-symlink_glvnd()      {
+symlink_glvnd()         {
     case "$6" in
         NON_GLVND)
             # legacy non-GLVND GLX symlinks
