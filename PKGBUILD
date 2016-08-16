@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=367.35
+pkgver=370.23
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha1sums=('8cfa97e0e914832ab46f09c3e41d3fb3024502e1')
+sha1sums=('05f4a1a52f71e274254669bfd196067f66a2c260')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -160,8 +160,8 @@ package_lib32-opencl-nvidia() {
 package_lib32-nvidia-libgl() {
     pkgdesc="NVIDIA drivers libraries (32-bit)"
     depends=('nvidia-libgl')
-    provides=('lib32-libgl' 'lib32-libglvnd')
-    conflicts=('lib32-libgl' 'lib32-libglvnd')
+    provides=('lib32-libgl' 'lib32-libglvnd' 'lib32-libegl' 'lib32-libgles')
+    conflicts=('lib32-libgl' 'lib32-libglvnd' 'lib32-libegl' 'lib32-libgles')
     optdepends=('lib32-libvdpau: VDPAU wrapper library')
     cd "${_pkg}"
 
