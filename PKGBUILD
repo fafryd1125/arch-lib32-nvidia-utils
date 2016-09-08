@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=370.23
+pkgver=370.28
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha1sums=('05f4a1a52f71e274254669bfd196067f66a2c260')
+sha1sums=('daaaab50b0b8e73f8f6990313685771096e0926a')
 
 prepare() {
     sh ${_pkg}.run --extract-only
