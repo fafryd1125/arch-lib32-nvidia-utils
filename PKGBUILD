@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=370.28
+pkgver=375.10
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha1sums=('daaaab50b0b8e73f8f6990313685771096e0926a')
+sha1sums=('575eb0f81e09aeb144d85c4621e79102569999ee')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -32,6 +32,8 @@ process_manifest () {
         ["OPENCL_LIB_SYMLINK"]="lib32-opencl-nvidia symlink_lib_with_path"
 
         # lib32-nvidia-libgl
+        ["EGL_CLIENT_LIB"]="lib32-nvidia-libgl install_glvnd"
+        ["EGL_CLIENT_SYMLINK"]="lib32-nvidia-libgl symlink_glvnd"
         ["GLVND_LIB"]="lib32-nvidia-libgl install_lib"
         ["GLVND_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
         ["GLX_CLIENT_LIB"]="lib32-nvidia-libgl install_glvnd"
@@ -71,6 +73,7 @@ process_manifest () {
         ["APPLICATION_PROFILE"]="ignored"       # lib32-nvidia-libgl
         ["NVIDIA_MODPROBE_MANPAGE"]="ignored"
         ["NVIDIA_MODPROBE"]="ignored"
+        ["GLVND_EGL_ICD_JSON"]="ignored"
         ["GLX_MODULE_SHARED_LIB"]="ignored"
         ["GLX_MODULE_SYMLINK"]="ignored"
         ["VULKAN_ICD_JSON"]="ignored"
