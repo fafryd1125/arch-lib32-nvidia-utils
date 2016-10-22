@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha1sums=('575eb0f81e09aeb144d85c4621e79102569999ee')
+sha256sums=('77c06d9c6831d6d1b53276d0741eddac4aab2f2f02b7c1fe14b86aa982aacd69')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -32,12 +32,12 @@ process_manifest () {
         ["OPENCL_LIB_SYMLINK"]="lib32-opencl-nvidia symlink_lib_with_path"
 
         # lib32-nvidia-libgl
-        ["EGL_CLIENT_LIB"]="lib32-nvidia-libgl install_glvnd"
-        ["EGL_CLIENT_SYMLINK"]="lib32-nvidia-libgl symlink_glvnd"
+        ["EGL_CLIENT_LIB"]="lib32-nvidia-libgl install_gl_client"
+        ["EGL_CLIENT_SYMLINK"]="lib32-nvidia-libgl symlink_gl_client"
         ["GLVND_LIB"]="lib32-nvidia-libgl install_lib"
         ["GLVND_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
-        ["GLX_CLIENT_LIB"]="lib32-nvidia-libgl install_glvnd"
-        ["GLX_CLIENT_SYMLINK"]="lib32-nvidia-libgl symlink_glvnd"
+        ["GLX_CLIENT_LIB"]="lib32-nvidia-libgl install_gl_client"
+        ["GLX_CLIENT_SYMLINK"]="lib32-nvidia-libgl symlink_gl_client"
         ["OPENGL_LIB"]="lib32-nvidia-libgl install_lib"
         ["OPENGL_SYMLINK"]="lib32-nvidia-libgl symlink_lib"
         ["TLS_LIB"]="lib32-nvidia-libgl install_tls"
@@ -57,9 +57,10 @@ process_manifest () {
         ["UTILITY_LIB_SYMLINK"]="lib32-nvidia-utils symlink_lib"
 
         # Ignored entries
+        ["DKMS_CONF"]="ignored"                 # dkms isn't needed with Arch's version-locked packages
+        ["DOT_DESKTOP"]="ignored"               # Use the separate Arch nvidia-settings package.
         ["INSTALLER_BINARY"]="ignored"          # provided by pacman
         ["KERNEL_MODULE_SRC"]="ignored"         # kernel modules are handled by the nvidia PKGBUILD
-        ["DKMS_CONF"]="ignored"                 # dkms is not used
         ["LIBGL_LA"]="ignored"                  # .la files are not needed
         ["OPENCL_WRAPPER_LIB"]="ignored"        # provided by libcl
         ["OPENCL_WRAPPER_SYMLINK"]="ignored"    # provided by libcl
@@ -80,7 +81,6 @@ process_manifest () {
         ["XMODULE_SHARED_LIB"]="ignored"
         ["XORG_OUTPUTCLASS_CONFIG"]="ignored"
         ["UTILITY_BINARY"]="ignored"            # lib32-nvidia-utils
-        ["DOT_DESKTOP"]="ignored"
         ["MANPAGE"]="ignored"
         ["DOCUMENTATION"]="ignored"
     )
@@ -108,18 +108,17 @@ process_manifest () {
     ln -s nvidia "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
-install_lib()           { install -D -m$2 "$1" "${pkgdir}/usr/lib32/$5$1"; }
-
-install_glvnd()         {
-    case "$5" in
-        NON_GLVND)
-            # legacy non-GLVND GLX libraries
+install_lib() {
+    case "$1" in
+        libnvidia-gtk*)
+            # Use the separate Arch nvidia-settings package.
             ;;
-        GLVND)
-            install -D -m$2 "$1" "${pkgdir}/usr/lib32/$1";
+        *)
+            install -D -m$2 "$1" "${pkgdir}/usr/lib32/$5$1"
             ;;
     esac
 }
+
 
 install_tls()           {
     # Only "new" TLS is needed on modern systems.
@@ -137,19 +136,26 @@ install_tls()           {
     esac
 }
 
+install_gl_client()     {
+    # Use the GLNVD libraries
+    if [ $5 = "NON_GLVND" ]; then
+        return
+    fi
+
+    install -D -m$2 "$1" "${pkgdir}/usr/lib32/$1"
+}
+
+symlink_gl_client()     {
+    # Use the GLNVD libraries
+    if [ $6 = "NON_GLVND" ]; then
+        return
+    fi
+
+    symlink_lib "$@"
+}
+
 symlink_lib()           { ln -s "$5" "${pkgdir}/usr/lib32/$1"; }
 symlink_lib_with_path() { ln -s "$6" "${pkgdir}/usr/lib32/$5$1"; }
-
-symlink_glvnd()         {
-    case "$6" in
-        NON_GLVND)
-            # legacy non-GLVND GLX symlinks
-            ;;
-        GLVND)
-            ln -s "$5" "${pkgdir}/usr/lib32/$1";
-            ;;
-    esac
-}
 
 package_lib32-opencl-nvidia() {
     pkgdesc="OpenCL implemention for NVIDIA (32-bit)"
