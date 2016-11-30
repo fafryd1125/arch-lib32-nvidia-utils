@@ -169,7 +169,7 @@ package_lib32-opencl-nvidia() {
 package_lib32-nvidia-libgl() {
     pkgdesc="NVIDIA drivers libraries (32-bit)"
     depends=('nvidia-libgl')
-    provides=('lib32-libgl' 'lib32-libglvnd' 'lib32-libegl' 'lib32-libgles')
+    provides=('lib32-libgl' 'lib32-libglvnd' 'lib32-libegl' 'lib32-libgles' 'lib32-vulkan-driver')
     conflicts=('lib32-libgl' 'lib32-libglvnd' 'lib32-libegl' 'lib32-libgles')
     optdepends=('lib32-libvdpau: VDPAU wrapper library')
     cd "${_pkg}"
