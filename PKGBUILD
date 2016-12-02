@@ -159,8 +159,9 @@ symlink_lib_with_path() { ln -s "$6" "${pkgdir}/usr/lib32/$5$1"; }
 
 package_lib32-opencl-nvidia() {
     pkgdesc="OpenCL implemention for NVIDIA (32-bit)"
-    depends=('lib32-libcl' 'lib32-zlib' 'lib32-gcc-libs')
+    depends=('lib32-zlib' 'lib32-gcc-libs')
     optdepends=('opencl-headers: headers necessary for OpenCL development')
+    provides=('lib32-opencl-driver')
     cd "${_pkg}"
 
     process_manifest
