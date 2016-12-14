@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=375.20
+pkgver=375.26
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
