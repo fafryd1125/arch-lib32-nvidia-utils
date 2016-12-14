@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha256sums=('cc79d3ac2b688009ed2e47a1cf27557aea5dd745b3b6e9b83945c359ddab4335')
+sha256sums=('7c79cfaae5512f34ff14cf0fe76632c7c720600d4bbae71d90ff73f1674e617b')
 
 prepare() {
     sh ${_pkg}.run --extract-only
