@@ -9,7 +9,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl' 'lib32-opencl-nvidia')
-pkgver=375.26
+pkgver=378.09
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -19,7 +19,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
 source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-sha256sums=('7c79cfaae5512f34ff14cf0fe76632c7c720600d4bbae71d90ff73f1674e617b')
+sha256sums=('feaaa52b96f82ed27fa7286b645c6f220984fb2831aac492b037a188f5e63b28')
 
 prepare() {
     sh ${_pkg}.run --extract-only
@@ -72,6 +72,7 @@ process_manifest () {
         # Ignored entries for lib32-* packages
         ["CUDA_ICD"]="ignored"                  # lib32-opencl-nvidia
         ["APPLICATION_PROFILE"]="ignored"       # lib32-nvidia-libgl
+        ["EGL_EXTERNAL_PLATFORM_JSON"]="ignored"
         ["NVIDIA_MODPROBE_MANPAGE"]="ignored"
         ["NVIDIA_MODPROBE"]="ignored"
         ["GLVND_EGL_ICD_JSON"]="ignored"
